@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public class GameWorldsAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
         View view = convertView;
         GroupViewHolder holder;
         if (view == null) {
@@ -104,12 +105,19 @@ public class GameWorldsAdapter extends BaseExpandableListAdapter {
                         append(", description = ").append(world.getWorldStatus().getDescription()).append("\n").
                         toString());
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ExpandableListView) parent).collapseGroup(groupPosition);
+            }
+        });
+
         return view;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 
     private static class GroupViewHolder {
