@@ -6,4 +6,8 @@
     <string name="connect">Connect</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="change_credentials">Change login/pass</string>
+    <string name="refresh">Refresh</string>
+    <string name="confirm_change">Confirm changes</string>
+    <string name="discard_change">Discard changes</string>
 </resources>

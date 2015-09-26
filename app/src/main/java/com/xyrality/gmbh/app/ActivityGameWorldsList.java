@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -21,6 +23,12 @@ public class ActivityGameWorldsList extends Activity implements LoaderManager.Lo
 
     private static final int LOADER_GAME_WORLDS_ID = 0;
 
+    private Button changeCredentialsButton;
+
+    private Button refreshButton;
+
+    private static final String CHANGE_CREDENTIALS_DIALOG_TAG = "CHANGE_CREDENTIALS_DIALOG_TAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +36,39 @@ public class ActivityGameWorldsList extends Activity implements LoaderManager.Lo
 
         gameWorldsistView = (ExpandableListView) findViewById(R.id.gameWorldsListView);
 
-        startGameWorldsLoader();
+        changeCredentialsButton = (Button) findViewById(R.id.changeCredentialsButton);
+        refreshButton = (Button) findViewById(R.id.refreshButton);
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGameWorldsLoader(false);
+            }
+        });
+
+        changeCredentialsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startChangindDialog();
+            }
+        });
+
+        startGameWorldsLoader(true);
     }
 
-    private void startGameWorldsLoader() {
+    private void startChangindDialog() {
+        ChangeCredentialsDialogFragment dialog = new ChangeCredentialsDialogFragment();
+        dialog.show(getFragmentManager(), CHANGE_CREDENTIALS_DIALOG_TAG);
+    }
+
+    public void startGameWorldsLoader(boolean init) {
         Bundle loaderArgs = new Bundle();
         loaderArgs.putString(URL_KEY, GAME_WORLDS_URL);
-        getLoaderManager().initLoader(LOADER_GAME_WORLDS_ID, loaderArgs, this);
+        if (init) {
+            getLoaderManager().initLoader(LOADER_GAME_WORLDS_ID, loaderArgs, this);
+        } else {
+            getLoaderManager().restartLoader(LOADER_GAME_WORLDS_ID, loaderArgs, this);
+        }
     }
 
     @Override
