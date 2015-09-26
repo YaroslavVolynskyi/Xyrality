@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -51,8 +50,13 @@ public class ActivityGameWorldsList extends Activity implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<List<GameWorld>> loader, List<GameWorld> worldsList) {
-        if (worldsList != null && worldsList.size() > 0) {
-            Log.d("size", String.valueOf(worldsList.size()));
+        if (loader.getId() == LOADER_GAME_WORLDS_ID && worldsList != null && worldsList.size() > 0) {
+            GameWorldsAdapter adapter = new GameWorldsAdapter(ActivityGameWorldsList.this, worldsList);
+            gameWorldsistView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            if (gameWorldsistView != null && gameWorldsistView.getAdapter().getCount() > 0) {
+                gameWorldsistView.expandGroup(0);
+            }
         }
     }
 
