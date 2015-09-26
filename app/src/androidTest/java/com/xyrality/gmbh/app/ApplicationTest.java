@@ -1,4 +1,4 @@
-package com.xyrality.gmbh.xyrality;
+package com.xyrality.gmbh.app;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
